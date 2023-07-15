@@ -6,7 +6,6 @@ function App() {
   return (
     <>
       <div>
-        <h1>DS App</h1>
         <Navigation isAuthenticated={isAuthenticated} />
       </div>
     </>

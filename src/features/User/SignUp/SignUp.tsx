@@ -1,87 +1,112 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User } from '../models';
-import './SignUp.css'
+import React from 'react';
+import { FormikConfig, useFormik } from 'formik';
+import * as Yup from 'yup';
+import { TextField, Button, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const RegistrationForm: React.FC = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [age, setAge] = useState('');
-  const navigate = useNavigate();
-
-  const handleFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFirstName(e.target.value);
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    age: ''
   };
 
-  const handleLastNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLastName(e.target.value);
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters long'),
+    age: Yup.number().required('Age is required').positive('Age must be a positive number').integer('Age must be an integer')
+  });
+
+  const handleSubmit: FormikConfig<{ firstName: string; lastName: string; email: string; password: string; age: string; }>['onSubmit'] = (values, { resetForm }) => {
+    localStorage.setItem('user', JSON.stringify(values));
+    resetForm();
   };
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handleAgeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAge(e.target.value);
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-
-    const user = new User(
-      firstName,
-      lastName,
-      Number.parseInt(age),
-      email,
-      password,
-    );
-
-    localStorage.setItem('registeredUser', JSON.stringify(user));
-
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPassword('');
-    setAge('');
-
-    navigate('/login')
-  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handleSubmit
+  });
 
   return (
-    <div>
-      <h2>Sign up!</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input required type="text" value={firstName} onChange={handleFirstNameChange} />
-        </div>
-        <div>
-          <label>Last Name:</label>
-          <input required type="text" value={lastName} onChange={handleLastNameChange} />
-        </div>
-        <div>
-          <label>Age:</label>
-          <input required type="number" value={age} onChange={handleAgeChange} />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input required type="email" value={email} onChange={handleEmailChange} />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input required type="password" value={password} onChange={handlePasswordChange} />
-        </div>
-        <button type="submit">Register</button>
+    <div >
+      <Typography variant="h4" gutterBottom>
+        Registration Form
+      </Typography>
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          id="firstName"
+          name="firstName"
+          label="First Name"
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+          helperText={formik.touched.firstName && formik.errors.firstName}
+          margin='normal'
+          fullWidth
+        />
+
+        <TextField
+          id="lastName"
+          name="lastName"
+          label="Last Name"
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+          helperText={formik.touched.lastName && formik.errors.lastName}
+          margin='normal'
+          fullWidth
+        />
+
+        <TextField
+          id="email"
+          name="email"
+          label="Email"
+          type="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          margin='normal'
+          fullWidth
+        />
+
+        <TextField
+          id="password"
+          name="password"
+          label="Password"
+          type="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          margin='normal'
+          fullWidth
+        />
+
+        <TextField
+          id="age"
+          name="age"
+          label="Age"
+          type="number"
+          value={formik.values.age}
+          onChange={formik.handleChange}
+          error={formik.touched.age && Boolean(formik.errors.age)}
+          helperText={formik.touched.age && formik.errors.age}
+          margin='normal'
+          fullWidth
+        />
+        <Button type='submit' variant='contained'>
+          Register
+        </Button>
+        <p>
+          Do you have an account? <Link to="/login">Login</Link>
+        </p>
       </form>
-      <p>
-        Do you have an account? <Link to="/login">Login</Link>
-      </p>
     </div>
   );
 };

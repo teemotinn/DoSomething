@@ -29,7 +29,7 @@ const Navigation = (props: Props) => {
 interface PrivateRouteProps {
     isAuthenticated: boolean,
     redirectPath?: string,
-    children?: any
+    children?: React.ReactNode
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ isAuthenticated, children, redirectPath = '/login', }) => {
