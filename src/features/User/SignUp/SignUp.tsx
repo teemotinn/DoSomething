@@ -1,79 +1,89 @@
-import { SetStateAction, useState } from 'react'
-import './SignUp.css'
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../models';
+import './SignUp.css'
 
-function SignUp() {
-  const [name, setName] = useState('');
+const RegistrationForm: React.FC = () => {
+  const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [age, setAge] = useState('');
+  const navigate = useNavigate();
 
-  const handleFirstNameChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-    setName(e.target.value);
+  const handleFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFirstName(e.target.value);
   };
-  const handleLastNameChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+
+  const handleLastNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
   };
-  const handleAgeChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-    setAge(e.target.value);
-  };
-  const handleEmailChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handlePasswordChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const resetFields = () => {
-    setName('')
-    setLastName('')
-    setAge('')
-    setEmail('')
-    setPassword('')
-  }
+  const handleAgeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAge(e.target.value);
+  };
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
 
-    const user = new User(name, lastName, Number.parseInt(age), email, password)
-    localStorage.setItem('user', JSON.stringify(user))
+    const user = new User(
+      firstName,
+      lastName,
+      Number.parseInt(age),
+      email,
+      password,
+    );
 
-    resetFields()
+    localStorage.setItem('registeredUser', JSON.stringify(user));
+
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPassword('');
+    setAge('');
+
+    navigate('/login')
   };
 
   return (
-    <>
-      <div className='mainContainer'>
-        <h2>
-          Registro
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className='formInput'>
-            <label>Nombre:</label>
-            <input required type="text" value={name} onChange={handleFirstNameChange} />
-          </div>
-          <div className='formInput'>
-            <label>Apellido:</label>
-            <input required type="text" value={lastName} onChange={handleLastNameChange} />
-          </div>
-          <div className='formInput'>
-            <label>Edad:</label>
-            <input required type="number" value={age} onChange={handleAgeChange} />
-          </div>
-          <div className='formInput'>
-            <label>Correo:</label>
-            <input required type="email" value={email} onChange={handleEmailChange} />
-          </div>
-          <div className='formInput'>
-            <label>Contraseña:</label>
-            <input required type="password" value={password} onChange={handlePasswordChange} />
-          </div>
-          <button type="submit">Registrar</button>
-        </form>
-      </div>
-    </>
-  )
-}
+    <div>
+      <h2>Sign up!</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+          <input required type="text" value={firstName} onChange={handleFirstNameChange} />
+        </div>
+        <div>
+          <label>Last Name:</label>
+          <input required type="text" value={lastName} onChange={handleLastNameChange} />
+        </div>
+        <div>
+          <label>Age:</label>
+          <input required type="number" value={age} onChange={handleAgeChange} />
+        </div>
+        <div>
+          <label>Email:</label>
+          <input required type="email" value={email} onChange={handleEmailChange} />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input required type="password" value={password} onChange={handlePasswordChange} />
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <p>
+        Do you have an account? <Link to="/login">Login</Link>
+      </p>
+    </div>
+  );
+};
 
-export default SignUp;
+export default RegistrationForm;

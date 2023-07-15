@@ -1,9 +1,14 @@
-import SignUp from './features/User/SignUp/SignUp'
+import Navigation from './navigation/Navigation'
 
 function App() {
+  const isAuthenticated = !!localStorage.getItem('user');
+
   return (
     <>
-      <SignUp />
+      <div>
+        <h1>DS App</h1>
+        <Navigation isAuthenticated={isAuthenticated} />
+      </div>
     </>
   )
 }
