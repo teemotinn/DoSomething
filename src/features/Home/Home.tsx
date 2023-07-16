@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { User } from '../User/models';
 import Header from '../../components/Header';
+import styles from '../../components/container.module.scss'
 
 const Home: React.FC = () => {
     const [user, setUser] = useState<User | undefined>();
@@ -29,10 +30,12 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <Header title={'DS!'} />
-            <h2>Welcome, {user?.name ?? '-'}!</h2>
-            <p>Age: {user?.age ?? '-'}</p>
-            <p>Activity to do: {isLoadingActivity ? 'Loading...' : activity}</p>
+            <Header />
+            <div className={styles.internalContainer}>
+                <h2>Welcome, {user?.name ?? '-'}!</h2>
+                <p>Age: {user?.age ?? '-'}</p>
+                <p>Activity to do: {isLoadingActivity ? 'Loading...' : activity}</p>
+            </div>
         </div>
     );
 };

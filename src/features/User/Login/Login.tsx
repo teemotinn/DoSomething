@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormikConfig, useFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Typography, Modal } from '@mui/material';
+import { TextField, Button, Typography, Modal, Snackbar, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../../../components/container.module.scss'
 import { User } from '../models';
 
 const LoginScreen: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/home')
+      setIsLogged(false)
+    }
+  }, [isLogged])
+
 
   const initialValues = {
     email: '',
@@ -26,10 +35,10 @@ const LoginScreen: React.FC = () => {
     const user: User = JSON.parse(localStorage.getItem('registeredUser') ?? '{}') as User;
     if (values.email === user.email && values.password === user.password) {
       localStorage.setItem('user', JSON.stringify(user));
-      navigate('/home')
+      setIsLogged(true)
       resetForm();
     } else {
-      setModalOpen(true);
+      setOpenToast(true);
     }
   };
 
@@ -39,12 +48,12 @@ const LoginScreen: React.FC = () => {
     onSubmit: handleSubmit
   });
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
+  const handleCloseToast = () => {
+    setOpenToast(false);
   };
 
   return (
-    <div className={styles.centeredContainer}>
+    <div className={styles.internalContainer}>
       <Typography variant="h4" gutterBottom>
         Login
       </Typography>
@@ -83,17 +92,16 @@ const LoginScreen: React.FC = () => {
         </p>
       </form>
 
-      <Modal open={modalOpen} onClose={handleCloseModal}>
-        <div>
-          <Typography variant="h5" gutterBottom>
-            Login Failed
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Invalid email or password. Please try again.
-          </Typography>
-          <Button onClick={handleCloseModal}>Close</Button>
-        </div>
-      </Modal>
+      <Snackbar
+        open={openToast}
+        autoHideDuration={6000}
+        onClose={handleCloseToast}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="error" onClose={handleCloseToast}>
+          Invalid email or password. Please try again.
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

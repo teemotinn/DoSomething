@@ -1,3 +1,4 @@
+import Header from './components/Header';
 import Navigation from './navigation/Navigation'
 
 function App() {

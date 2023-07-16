@@ -3,6 +3,7 @@ import { FormikConfig, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import styles from '../../../components/container.module.scss'
 
 const RegistrationForm: React.FC = () => {
   const initialValues = {
@@ -33,7 +34,7 @@ const RegistrationForm: React.FC = () => {
   });
 
   return (
-    <div >
+    <div className={styles.internalContainer}>
       <Typography variant="h4" gutterBottom>
         Registration Form
       </Typography>

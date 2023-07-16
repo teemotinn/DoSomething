@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Button, Drawer, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@mui/material';
 import { Menu as MenuIcon, Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
 
-interface HeaderProps {
-    title: string;
-}
-
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const Header: React.FC = () => {
     const navigate = useNavigate();
     const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -35,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     </IconButton>
                     </Hidden>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {title}
+                        DS!
                     </Typography>
                     <Hidden smDown>
                         <Button color="inherit" onClick={() => handleMenuOptionClick('/home')}>
