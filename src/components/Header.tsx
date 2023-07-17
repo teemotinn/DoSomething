@@ -1,34 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Button, Drawer, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@mui/material';
-import { Menu as MenuIcon, Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, Home as HomeIcon, List as ListIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import containerStyle from '../components/container.module.scss'
+import { ActivityContext } from '../context/ActivityContext';
 
 const Header: React.FC = () => {
+    const { cleanActivities } = useContext(ActivityContext);
     const navigate = useNavigate();
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem('loggedUser')
-        navigate('/login');
+        cleanActivities()
+        navigate('/login')
     };
 
     const handleDrawerToggle = () => {
-        setMenuOpen(!isMenuOpen);
+        setMenuOpen(!isMenuOpen)
     };
 
     const handleMenuOptionClick = (path: string) => {
-        navigate(path);
-        setMenuOpen(false);
+        navigate(path)
+        setMenuOpen(false)
     };
 
     return (
-        <div>
-            <AppBar position="static">
+        <div className={containerStyle.growContainer}>
+            <AppBar position="sticky">
                 <Toolbar>
-                <Hidden smUp>
-                    <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
-                        <MenuIcon />
-                    </IconButton>
+                    <Hidden smUp>
+                        <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
+                            <MenuIcon />
+                        </IconButton>
                     </Hidden>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         DS!
@@ -37,13 +41,13 @@ const Header: React.FC = () => {
                         <Button color="inherit" onClick={() => handleMenuOptionClick('/home')}>
                             Home
                         </Button>
-                        <Button color="inherit" onClick={() => handleMenuOptionClick('/listado')}>
+                        <Button color="inherit" onClick={() => handleMenuOptionClick('/activities')}>
                             List
                         </Button>
+                        <Button color="inherit" onClick={handleLogout}>
+                            Logout
+                        </Button>
                     </Hidden>
-                    <Button color="inherit" onClick={handleLogout}>
-                        Logout
-                    </Button>
                 </Toolbar>
             </AppBar>
 
@@ -56,11 +60,17 @@ const Header: React.FC = () => {
                             </ListItemIcon>
                             <ListItemText primary="Home" />
                         </ListItem>
-                        <ListItem onClick={() => handleMenuOptionClick('/listado')}>
+                        <ListItem onClick={() => handleMenuOptionClick('/activities')}>
                             <ListItemIcon>
                                 <ListIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Listado" />
+                            <ListItemText primary="List" />
+                        </ListItem>
+                        <ListItem onClick={() => handleLogout}>
+                            <ListItemIcon>
+                                <LogoutIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Logout" />
                         </ListItem>
                     </List>
                 </Drawer>

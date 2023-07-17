@@ -9,7 +9,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import Circle from '@mui/icons-material/Circle'
 
-export default function ActivityIcon(props: { className?: string, type: string }) {
+const ActivityIcon = (props: { type: string, className?: string, }) => {
     switch (props.type) {
         case "education": return <SchoolIcon className={props.className} />
         case "recreational": return <AccessTimeIcon className={props.className} />
@@ -23,3 +23,5 @@ export default function ActivityIcon(props: { className?: string, type: string }
         default: return <Circle className={props.className} />
     }
 }
+
+export default ActivityIcon

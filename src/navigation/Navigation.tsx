@@ -3,15 +3,16 @@ import Home from '../features/Home/Home';
 import Login from '../features/User/Login/Login';
 import SignUp from '../features/User/SignUp/SignUp';
 import { ProtectedRoute, PublicRoute } from './CustomRoutes';
+import ActivitiesList from '../features/Activities/ActivityList';
 
 const Navigation = () => {
-
     return (
         <Router>
             <Routes>
                 <Route element={<ProtectedRoute />}>
                     <Route path="/" element={<Home />} />
                     <Route path='/home' element={<Home />} />
+                    <Route path='/activities' element={<ActivitiesList />} />
                 </Route>
                 <Route element={<PublicRoute />}>
                     <Route path="/register" element={<SignUp />} />

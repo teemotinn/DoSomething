@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TextField, Button, Typography, Snackbar, Alert } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import buttonStyles from '../../../components/button.module.scss'
 import containerStyles from '../../../components/container.scss'
-import { MinimumUser, User } from '../User/models'
+import { MinimumUser, User } from '../User/model'
 
-const LoginScreen: React.FC = () => {
+const LoginScreen = () => {
   const [openToast, setOpenToast] = useState(false);
 
   const navigate = useNavigate()

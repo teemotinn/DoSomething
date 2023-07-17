@@ -10,7 +10,7 @@ const toDomain = (dto: ActivityDTO): Activity => {
             dto.price,
             dto.link,
             dto.key,
-            dto.accessibility
+            dto.accessibility,
         )
     )
 }

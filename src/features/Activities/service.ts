@@ -1,4 +1,5 @@
-import { FailureResponse } from "../../common/FailureResponse";
+import { FailureResponse } from "../../connection/FailureResponse";
+import { DEFAULT_API_ERROR_RESPONSE } from "../../common/common";
 import { BASE_URL } from "../../connection/baseUrl";
 import { ActivityDTO } from "./dto";
 import { ActivityMapper } from "./mapper";
@@ -23,7 +24,7 @@ export const getActivity = async (filters?: ActivityFilter): Promise<Activity | 
         const data: ActivityDTO = await response.json() as ActivityDTO;
         return ActivityMapper.toDomain(data);
     } catch (error) {
-        return new FailureResponse('Something went wrong!')
+        return DEFAULT_API_ERROR_RESPONSE
     }
 };
 

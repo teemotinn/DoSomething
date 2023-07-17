@@ -3,7 +3,7 @@ import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TextField, Button, Typography, Snackbar, Alert } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import { MinimumUser, User } from '../models'
+import { MinimumUser, User } from '../model'
 import buttonStyles from '../../../components/button.module.scss'
 import containerStyles from '../../../components/container.module.scss'
 
