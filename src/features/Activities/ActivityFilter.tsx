@@ -3,9 +3,9 @@ import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TextField, Button, Typography, Snackbar, Alert } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import { MinimumUser, User } from '../models'
 import buttonStyles from '../../../components/button.module.scss'
-import containerStyles from '../../../components/container.module.scss'
+import containerStyles from '../../../components/container.scss'
+import { MinimumUser, User } from '../User/models'
 
 const LoginScreen: React.FC = () => {
   const [openToast, setOpenToast] = useState(false);

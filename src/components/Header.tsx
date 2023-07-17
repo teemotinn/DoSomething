@@ -8,7 +8,7 @@ const Header: React.FC = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
-        localStorage.removeItem('user')
+        localStorage.removeItem('loggedUser')
         navigate('/login');
     };
 
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
         <div>
             <AppBar position="static">
                 <Toolbar>
-                <Hidden mdUp>
+                <Hidden smUp>
                     <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
                         <MenuIcon />
                     </IconButton>
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
                 </Toolbar>
             </AppBar>
 
-            <Hidden mdUp>
+            <Hidden smUp>
                 <Drawer anchor="left" open={isMenuOpen} onClose={handleDrawerToggle}>
                     <List>
                         <ListItem onClick={() => handleMenuOptionClick('/home')}>

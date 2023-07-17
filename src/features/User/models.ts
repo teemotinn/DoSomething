@@ -1,21 +1,31 @@
-export class User {
-    public name: string;
-    public lastName: string;
-    public age: number;
-    public email: string;
-    public password: string;
+export class MinimumUser {
+    email: string;
+    password: string;
 
     constructor(
-        name: string,
-        lastName: string,
-        age: number,
         email: string,
         password: string,
     ) {
-        this.name = name;
-        this.lastName = lastName;
-        this.age = age;
         this.email = email;
         this.password = password;
+    }
+}
+
+export class User extends MinimumUser {
+    age: string;
+    name: string;
+    lastName: string;
+
+    constructor(
+        email: string,
+        password: string,
+        age: string,
+        name: string,
+        lastName: string,
+    ) {
+        super(email, password)
+        this.age = age;
+        this.name = name;
+        this.lastName = lastName;
     }
 }

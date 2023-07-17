@@ -12,12 +12,6 @@ import './index.css'
 let theme = createTheme({
   palette: {
     mode: 'dark',
-    background: {
-      default: "#222222"
-    },
-    text: {
-      primary: "#ffffff"
-    }
   },
 });
 theme = responsiveFontSizes(theme);
