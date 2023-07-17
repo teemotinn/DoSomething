@@ -27,7 +27,7 @@ const Header: React.FC = () => {
 
     return (
         <div className={containerStyle.growContainer}>
-            <AppBar position="sticky">
+            <AppBar position='sticky'>
                 <Toolbar>
                     <Hidden smUp>
                         <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
@@ -41,8 +41,8 @@ const Header: React.FC = () => {
                         <Button color="inherit" onClick={() => handleMenuOptionClick('/home')}>
                             Home
                         </Button>
-                        <Button color="inherit" onClick={() => handleMenuOptionClick('/activities')}>
-                            List
+                        <Button color="inherit" onClick={() => handleMenuOptionClick('/activities-to-do')}>
+                            To do
                         </Button>
                         <Button color="inherit" onClick={handleLogout}>
                             Logout
@@ -60,13 +60,13 @@ const Header: React.FC = () => {
                             </ListItemIcon>
                             <ListItemText primary="Home" />
                         </ListItem>
-                        <ListItem onClick={() => handleMenuOptionClick('/activities')}>
+                        <ListItem onClick={() => handleMenuOptionClick('/activities-to-do')}>
                             <ListItemIcon>
                                 <ListIcon />
                             </ListItemIcon>
-                            <ListItemText primary="List" />
+                            <ListItemText primary="To do" />
                         </ListItem>
-                        <ListItem onClick={() => handleLogout}>
+                        <ListItem onClick={handleLogout}>
                             <ListItemIcon>
                                 <LogoutIcon />
                             </ListItemIcon>

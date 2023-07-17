@@ -3,7 +3,7 @@ import Home from '../features/Home/Home';
 import Login from '../features/User/Login/Login';
 import SignUp from '../features/User/SignUp/SignUp';
 import { ProtectedRoute, PublicRoute } from './CustomRoutes';
-import ActivitiesList from '../features/Activities/ActivityList';
+import ActivitiesToDo from '../features/Activities/ActivitiesToDo';
 
 const Navigation = () => {
     return (
@@ -12,7 +12,7 @@ const Navigation = () => {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/" element={<Home />} />
                     <Route path='/home' element={<Home />} />
-                    <Route path='/activities' element={<ActivitiesList />} />
+                    <Route path='/activities-to-do' element={<ActivitiesToDo />} />
                 </Route>
                 <Route element={<PublicRoute />}>
                     <Route path="/register" element={<SignUp />} />
