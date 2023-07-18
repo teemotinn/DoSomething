@@ -3,10 +3,11 @@ import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TextField, Button, Typography, Alert, Snackbar } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import { User } from '../model';
-import containerStyles from '../../../components/container.module.scss'
-import buttonStyles from '../../../components/button.module.scss'
+import { User } from '../structure/model';
+import containerStyles from '../../../common/components/container.module.scss'
 import { AppContext } from '../../../context/AppContext'
+import { PATHS } from '../../../navigation/Paths'
+import Header from '../../../common/components/Header'
 
 const RegistrationForm: React.FC = () => {
   const { signUp, storedUsers } = useContext(AppContext);
@@ -46,87 +47,91 @@ const RegistrationForm: React.FC = () => {
   })
 
   return (
-    <div className={containerStyles.internalContainer}>
-      <Typography variant="h4" gutterBottom>
-        Registration Form
-      </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          id="name"
-          name="name"
-          label="Name"
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.touched.name && formik.errors.name}
-          margin="dense"
-          fullWidth
-        />
-        <TextField
-          id="lastName"
-          name="lastName"
-          label="Last Name"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-          helperText={formik.touched.lastName && formik.errors.lastName}
-          margin="dense"
-          fullWidth
-        />
-        <TextField
-          id="age"
-          name="age"
-          label="Age"
-          type="number"
-          value={formik.values.age}
-          onChange={formik.handleChange}
-          error={formik.touched.age && Boolean(formik.errors.age)}
-          helperText={formik.touched.age && formik.errors.age}
-          margin="dense"
-          fullWidth
-        />
-        <TextField
-          id="email"
-          name="email"
-          label="Email"
-          type="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          margin="dense"
-          fullWidth
-        />
-        <TextField
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          margin="dense"
-          fullWidth
-        />
-
-        <Button type='submit' variant='contained' className={buttonStyles.submitButton}>
-          Register
-        </Button>
-        <p>
-          Do you have an account? <Link to="/login">Login</Link>
-        </p>
-      </form>
-      <Snackbar
-        open={openToast}
-        autoHideDuration={6000}
-        onClose={handleCloseToast}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity="error" onClose={handleCloseToast}>
-          There is already a user created with that email.
-        </Alert>
-      </Snackbar>
+    <div>
+      <Header />
+      <div className={containerStyles.internal}>
+        <Typography variant="h4" gutterBottom>
+          Registration Form
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            id="name"
+            name="name"
+            label="Name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+            margin="dense"
+            fullWidth
+          />
+          <TextField
+            id="lastName"
+            name="lastName"
+            label="Last Name"
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+            helperText={formik.touched.lastName && formik.errors.lastName}
+            margin="dense"
+            fullWidth
+          />
+          <TextField
+            id="age"
+            name="age"
+            label="Age"
+            type="number"
+            value={formik.values.age}
+            onChange={formik.handleChange}
+            error={formik.touched.age && Boolean(formik.errors.age)}
+            helperText={formik.touched.age && formik.errors.age}
+            margin="dense"
+            fullWidth
+          />
+          <TextField
+            id="email"
+            name="email"
+            label="Email"
+            type="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            margin="dense"
+            fullWidth
+          />
+          <TextField
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            margin="dense"
+            fullWidth
+          />
+          <div className={containerStyles.submitButton}>
+            <Button type='submit' variant='contained' className={containerStyles.submitButton}>
+              Register
+            </Button>
+          </div>
+          <p>
+            Do you have an account? <Link to={PATHS.LOGIN}>Login</Link>
+          </p>
+        </form>
+        <Snackbar
+          open={openToast}
+          autoHideDuration={6000}
+          onClose={handleCloseToast}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert severity="error" onClose={handleCloseToast}>
+            There is already a user created with that email.
+          </Alert>
+        </Snackbar>
+      </div>
     </div>
   );
 };

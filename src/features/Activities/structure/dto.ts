@@ -1,4 +1,5 @@
 export interface ActivityDTO {
+  error?: string,
   activity: string;
   type: string;
   participants: number;

@@ -1,41 +1,19 @@
-export class MinimumActivity {
-
+export class Activity {
+    key: string;
     activity: string;
     type: string;
     participants: number;
 
     constructor(
+        key: string,
         activity: string,
         type: string,
         participants: number,
     ) {
+        this.key = key;
         this.activity = activity;
         this.participants = participants;
         this.type = type
-    }
-}
-
-export class Activity extends MinimumActivity {
-
-    price: number;
-    link: string;
-    key: string;
-    accessibility: number;
-
-    constructor(
-        activity: string,
-        type: string,
-        participants: number,
-        price: number,
-        link: string,
-        key: string,
-        accessibility: number
-    ) {
-        super(activity, type, participants);
-        this.price = price;
-        this.link = link;
-        this.key = key;
-        this.accessibility = accessibility;
     }
 }
 

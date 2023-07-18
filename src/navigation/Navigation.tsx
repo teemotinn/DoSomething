@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from '../features/Home/Home';
-import Login from '../features/User/Login/Login';
-import SignUp from '../features/User/SignUp/SignUp';
-import { ProtectedRoute, PublicRoute } from './CustomRoutes';
-import ActivitiesToDo from '../features/Activities/ActivitiesToDo';
-import { PATHS } from './Paths';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from '../features/Home/Home'
+import Login from '../features/User/Login/Login'
+import SignUp from '../features/User/SignUp/SignUp'
+import { ProtectedRoute, PublicRoute } from './CustomRoutes'
+import ActivitiesToDo from '../features/Activities/screens/ActivitiesToDo'
+import { PATHS } from './Paths'
 
 const Navigation = () => {
     return (
@@ -22,8 +22,8 @@ const Navigation = () => {
                 <Route path="*" element={<p>There's nothing here: 404!</p>} />
             </Routes>
         </Router>
-    );
-};
+    )
+}
 
-export default Navigation;
+export default Navigation
 

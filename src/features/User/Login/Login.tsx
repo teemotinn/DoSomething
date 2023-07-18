@@ -3,10 +3,11 @@ import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TextField, Button, Typography, Snackbar, Alert } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { MinimumUser, User } from '../model'
-import buttonStyles from '../../../components/button.module.scss'
-import containerStyles from '../../../components/container.module.scss'
+import { MinimumUser, User } from '../structure/model'
+import containerStyles from '../../../common/components/container.module.scss'
 import { AppContext } from '../../../context/AppContext'
+import { PATHS } from '../../../navigation/Paths'
+import Header from '../../../common/components/Header'
 
 const LoginScreen: React.FC = () => {
   const { login, storedUsers } = useContext(AppContext);
@@ -41,55 +42,59 @@ const LoginScreen: React.FC = () => {
   }
 
   return (
-    <div className={containerStyles.internalContainer}>
-      <Typography variant="h4" gutterBottom>
-        Login
-      </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          id="email"
-          name="email"
-          label="Email"
-          type="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          margin="dense"
-          fullWidth
-        />
-
-        <TextField
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          margin="dense"
-          fullWidth
-        />
-
-        <Button type='submit' variant='contained' className={buttonStyles.submitButton}>
+    <div>
+      <Header />
+      <div className={containerStyles.internal}>
+        <Typography variant="h4" gutterBottom>
           Login
-        </Button>
-        <p>
-          Don't have an account? <Link to="/register">Register</Link>
-        </p>
-      </form>
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            id="email"
+            name="email"
+            label="Email"
+            type="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            margin="dense"
+            fullWidth
+          />
 
-      <Snackbar
-        open={openToast}
-        autoHideDuration={6000}
-        onClose={handleCloseToast}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity="error" onClose={handleCloseToast}>
-          Invalid email or password. Please try again.
-        </Alert>
-      </Snackbar>
+          <TextField
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            margin="dense"
+            fullWidth
+          />
+          <div className={containerStyles.submitButton}>
+            <Button type='submit' variant='contained' >
+              Login
+            </Button>
+          </div>
+          <p>
+            Don't have an account? <Link to={PATHS.SIGN_UP}>Register</Link>
+          </p>
+        </form>
+
+        <Snackbar
+          open={openToast}
+          autoHideDuration={6000}
+          onClose={handleCloseToast}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert severity="error" onClose={handleCloseToast}>
+            Invalid email or password. Please try again.
+          </Alert>
+        </Snackbar>
+      </div>
     </div>
   );
 };

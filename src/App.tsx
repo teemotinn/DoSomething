@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Activity } from './features/Activities/model'
 import Navigation from './navigation/Navigation'
 import { AppContext } from './context/AppContext'
-import { User } from './features/User/model'
+import { User } from './features/User/structure/model'
+import { Activity } from './features/Activities/structure/model'
 
 function App() {
   const [storedUsers, setStoredUsers] = useState<User[]>([])
@@ -10,18 +10,34 @@ function App() {
   const [activities, setActivities] = useState<Activity[]>([])
 
   useEffect(() => {
-    const storedUsers = localStorage.getItem('storedUsers');
-    const loggedUser = localStorage.getItem('loggedUser');
+    const handleLogoutMessage = (event: MessageEvent) => {
+      if (event.data === 'logout') {
+        setLoggedUser(undefined)
+      }
+    }
+  
+    const logoutChannel = new BroadcastChannel('logoutChannel')
+    logoutChannel.addEventListener('message', handleLogoutMessage)
+  
+    return () => {
+      logoutChannel.removeEventListener('message', handleLogoutMessage)
+      logoutChannel.close()
+    }
+  }, [])
+
+
+  useEffect(() => {
+    const storedUsers = localStorage.getItem('storedUsers')
+    const loggedUser = localStorage.getItem('loggedUser')
 
     if (loggedUser && loggedUser !== 'undefined') {
-      setLoggedUser(JSON.parse(loggedUser) as User);
+      setLoggedUser(JSON.parse(loggedUser) as User)
     }
 
     if (storedUsers && storedUsers !== '[]') {
-      setStoredUsers(JSON.parse(storedUsers) as User[]);
+      setStoredUsers(JSON.parse(storedUsers) as User[])
     }
-  }, []);
-
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('storedUsers', JSON.stringify(storedUsers))
@@ -41,50 +57,59 @@ function App() {
 
   const logout = useCallback(() => {
     setLoggedUser(undefined)
-  }, [])
+    setActivities([])
+    if (!loggedUser) {
+      const logoutChannel = new BroadcastChannel('logoutChannel')
+      logoutChannel.postMessage('logout')
+    }
+  }, [loggedUser])
 
   useEffect(() => {
-    const storedActivities = localStorage.getItem('activities')
-    if (storedActivities && storedActivities !== '[]') {
-      setActivities((prevActivities) => [...prevActivities, ...JSON.parse(storedActivities) as Activity[]])
+    if (loggedUser?.email) {
+      const storedActivities = localStorage.getItem('activities' + loggedUser.email)
+      if (storedActivities !== null && storedActivities !== '[]') {
+        setActivities((prevActivities) => [...prevActivities, ...JSON.parse(storedActivities) as Activity[]])
+      }
     }
-  }, [])
+  }, [loggedUser?.email])
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'activities' && typeof event.newValue === 'string') {
-        const updatedActivities: Activity[] = event.newValue ? JSON.parse(event.newValue) as Activity[] : []
-        setActivities(updatedActivities)
+      if (loggedUser?.email) {
+        if (event.key === ('activities' + loggedUser.email) && typeof event.newValue === 'string') {
+          const updatedActivities: Activity[] = event.newValue ? JSON.parse(event.newValue) as Activity[] : []
+          setActivities(updatedActivities)
+        }
+      }
+      if (event.key === 'loggedUser' && typeof event.newValue === 'string') {
+        const updatedUser: User | undefined = event.newValue ? JSON.parse(event.newValue) as User : undefined
+        setLoggedUser(updatedUser)
       }
     }
-
     window.addEventListener('storage', handleStorageChange)
 
     return () => {
       window.removeEventListener('storage', handleStorageChange)
     }
-  }, [])
+  }, [loggedUser, loggedUser?.email, logout])
 
   useEffect(() => {
-    localStorage.setItem('activities', JSON.stringify(activities))
-  }, [activities])
+    if (loggedUser?.email) {
+      localStorage.setItem('activities' + loggedUser?.email, JSON.stringify(activities))
+    }
+  }, [activities, loggedUser?.email])
 
   const addActivity = useCallback((activity: Activity) => {
     setActivities((prevActivities) => [...prevActivities, activity])
   }, [])
 
-
   const removeActivity = useCallback((key: string) => {
     setActivities((prevActivities) => prevActivities.filter((activity) => activity.key !== key))
   }, [])
 
-  const cleanActivities = useCallback(() => {
-    setActivities([])
-  }, [])
-
   const contextValue = useMemo(() => (
-    { storedUsers, loggedUser, signUp, login, logout, activities, addActivity, removeActivity, cleanActivities }),
-    [storedUsers, loggedUser, signUp, login, logout, activities, addActivity, removeActivity, cleanActivities])
+    { storedUsers, loggedUser, signUp, login, logout, activities, addActivity, removeActivity }),
+    [storedUsers, loggedUser, signUp, login, logout, activities, addActivity, removeActivity])
 
   return (
     <>

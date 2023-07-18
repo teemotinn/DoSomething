@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
-import { PATHS } from "./Paths";
+import { useContext } from "react"
+import { Navigate, Outlet } from "react-router-dom"
+import { AppContext } from "../context/AppContext"
+import { PATHS } from "./Paths"
 
 interface CustomRouteProps {
     redirectPath?: string,
@@ -9,17 +9,17 @@ interface CustomRouteProps {
 }
 
 export const PublicRoute: React.FC<CustomRouteProps> = ({ children, redirectPath = PATHS.HOME, }) => {
-    const {loggedUser } = useContext(AppContext);
+    const {loggedUser } = useContext(AppContext)
     if (loggedUser) {
-        return <Navigate to={redirectPath} replace />;
+        return <Navigate to={redirectPath} replace />
     }
-    return children ? children : <Outlet />;
-};
+    return children ? children : <Outlet />
+}
 
 export const ProtectedRoute: React.FC<CustomRouteProps> = ({ children, redirectPath = PATHS.LOGIN, }) => {
-    const {loggedUser } = useContext(AppContext);
+    const {loggedUser } = useContext(AppContext)
     if (!loggedUser) {
-        return <Navigate to={redirectPath} replace />;
+        return <Navigate to={redirectPath} replace />
     }
-    return children ? children : <Outlet />;
-};
+    return children ? children : <Outlet />
+}

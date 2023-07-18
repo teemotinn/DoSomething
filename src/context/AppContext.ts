@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { Activity } from '../features/Activities/model';
-import { User } from '../features/User/model';
+import { User } from '../features/User/structure/model';
+import { Activity } from '../features/Activities/structure/model';
 
 interface AppContextProps {
     storedUsers: User[];
@@ -11,7 +11,6 @@ interface AppContextProps {
     activities: Activity[];
     addActivity: (activity: Activity) => void;
     removeActivity: (key: string) => void;
-    cleanActivities: () => void;
 }
 
 const initialContext: AppContextProps = {
@@ -23,7 +22,6 @@ const initialContext: AppContextProps = {
     activities: [],
     addActivity: () => { },
     removeActivity: () => { },
-    cleanActivities: () => { },
 };
 
 export const AppContext = createContext<AppContextProps>(initialContext);
