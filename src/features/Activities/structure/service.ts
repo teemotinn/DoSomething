@@ -21,7 +21,6 @@ const getActivity = async (filters?: ActivityFilter): Promise<Activity | Failure
 
     try {
         const response = await fetch(url, { signal })
-        console.log(response)
         const data: ActivityDTO = await response.json() as ActivityDTO
         if (data.error) {
             return new FailureResponse(data.error)

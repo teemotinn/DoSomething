@@ -54,7 +54,7 @@ const ActivityFilterForm: React.FC<FilterProps> = ({ onFilter }) => {
         value={formik.values.participants ?? ''}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        error={formik.touched.participants && formik.errors.participants ? true : false}
+        error={formik.touched.participants && Boolean(formik.errors.participants)}
         helperText={formik.touched.participants && formik.errors.participants}
       />
       <div className={containerStyles.marginLeftButton}>

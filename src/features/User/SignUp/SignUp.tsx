@@ -60,6 +60,7 @@ const RegistrationForm: React.FC = () => {
             label="Name"
             value={formik.values.name}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.name && Boolean(formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
             margin="dense"
@@ -71,6 +72,7 @@ const RegistrationForm: React.FC = () => {
             label="Last Name"
             value={formik.values.lastName}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
             helperText={formik.touched.lastName && formik.errors.lastName}
             margin="dense"
@@ -83,6 +85,7 @@ const RegistrationForm: React.FC = () => {
             type="number"
             value={formik.values.age}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.age && Boolean(formik.errors.age)}
             helperText={formik.touched.age && formik.errors.age}
             margin="dense"
@@ -95,6 +98,7 @@ const RegistrationForm: React.FC = () => {
             type="email"
             value={formik.values.email}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
             margin="dense"
@@ -107,6 +111,7 @@ const RegistrationForm: React.FC = () => {
             type="password"
             value={formik.values.password}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
             margin="dense"

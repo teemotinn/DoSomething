@@ -10,23 +10,6 @@ function App() {
   const [activities, setActivities] = useState<Activity[]>([])
 
   useEffect(() => {
-    const handleLogoutMessage = (event: MessageEvent) => {
-      if (event.data === 'logout') {
-        setLoggedUser(undefined)
-      }
-    }
-  
-    const logoutChannel = new BroadcastChannel('logoutChannel')
-    logoutChannel.addEventListener('message', handleLogoutMessage)
-  
-    return () => {
-      logoutChannel.removeEventListener('message', handleLogoutMessage)
-      logoutChannel.close()
-    }
-  }, [])
-
-
-  useEffect(() => {
     const storedUsers = localStorage.getItem('storedUsers')
     const loggedUser = localStorage.getItem('loggedUser')
 
@@ -58,11 +41,7 @@ function App() {
   const logout = useCallback(() => {
     setLoggedUser(undefined)
     setActivities([])
-    if (!loggedUser) {
-      const logoutChannel = new BroadcastChannel('logoutChannel')
-      logoutChannel.postMessage('logout')
-    }
-  }, [loggedUser])
+  }, [])
 
   useEffect(() => {
     if (loggedUser?.email) {
@@ -76,14 +55,15 @@ function App() {
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (loggedUser?.email) {
-        if (event.key === ('activities' + loggedUser.email) && typeof event.newValue === 'string') {
-          const updatedActivities: Activity[] = event.newValue ? JSON.parse(event.newValue) as Activity[] : []
+        if (event.key === ('activities' + loggedUser.email)) {
+          const updatedActivities: Activity[] = (event.newValue !== null) ? JSON.parse(event.newValue) as Activity[] : []
           setActivities(updatedActivities)
         }
       }
-      if (event.key === 'loggedUser' && typeof event.newValue === 'string') {
-        const updatedUser: User | undefined = event.newValue ? JSON.parse(event.newValue) as User : undefined
+      if (event.key === 'loggedUser') {
+        const updatedUser: User | undefined = (event.newValue !== null && event.newValue !== 'undefined') ? JSON.parse(event.newValue) as User : undefined
         setLoggedUser(updatedUser)
+        !updatedUser && logout()
       }
     }
     window.addEventListener('storage', handleStorageChange)
