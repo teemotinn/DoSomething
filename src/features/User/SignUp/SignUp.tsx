@@ -121,6 +121,7 @@ const RegistrationForm: React.FC = () => {
             name="password"
             label="Password"
             type="password"
+            placeholder='Password of at least 6 characters.'
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -135,9 +136,9 @@ const RegistrationForm: React.FC = () => {
               Register
             </Button>
           </div>
-          <p>
+          <Typography variant='body1'>
             Do you have an account? <Link href={PATHS.LOGIN}>Login</Link>
-          </p>
+          </Typography>
         </form>
         <Snackbar
           open={openErrorToast}
