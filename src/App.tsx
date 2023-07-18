@@ -56,12 +56,12 @@ function App() {
     const handleStorageChange = (event: StorageEvent) => {
       if (loggedUser?.email) {
         if (event.key === ('activities' + loggedUser.email)) {
-          const updatedActivities: Activity[] = (event.newValue !== null) ? JSON.parse(event.newValue) as Activity[] : []
+          const updatedActivities: Activity[] = (event.newValue && event.newValue !== '[]') ? JSON.parse(event.newValue) as Activity[] : []
           setActivities(updatedActivities)
         }
       }
       if (event.key === 'loggedUser') {
-        const updatedUser: User | undefined = (event.newValue !== null && event.newValue !== 'undefined') ? JSON.parse(event.newValue) as User : undefined
+        const updatedUser: User | undefined = (event.newValue && event.newValue !== 'undefined') ? JSON.parse(event.newValue) as User : undefined
         setLoggedUser(updatedUser)
         !updatedUser && logout()
       }

@@ -12,7 +12,9 @@ import Header from '../../../common/components/Header'
 const RegistrationForm: React.FC = () => {
   const { signUp, storedUsers } = useContext(AppContext);
   const navigate = useNavigate()
-  const [openToast, setOpenToast] = useState(false)
+  const [openErrorToast, setOpenErrorToast] = useState(false)
+  const [openSuccessToast, setOpenSuccessToast] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const initialValues = new User('', '', '', '', '')
 
@@ -25,19 +27,25 @@ const RegistrationForm: React.FC = () => {
   })
 
   const handleSubmit: FormikConfig<User>['onSubmit'] = (values, { resetForm }) => {
-    const user: User | undefined = storedUsers.find(user => user.email === values.email)
-    if (user) {
-      setOpenToast(true)
+    const userTaken: User | undefined = storedUsers.find(user => user.email === values.email)
+    if (userTaken) {
+      setOpenErrorToast(true)
     }
     else {
+      setIsSubmitted(true)
+      setOpenSuccessToast(true)
       signUp(values)
       resetForm()
-      navigate('/login')
     }
   }
 
-  const handleCloseToast = () => {
-    setOpenToast(false);
+  const handleCloseErrorToast = () => {
+    setOpenErrorToast(false);
+  }
+
+  const handleCloseSuccessToast = () => {
+    setOpenSuccessToast(false);
+    navigate('/login')
   }
 
   const formik = useFormik({
@@ -65,6 +73,7 @@ const RegistrationForm: React.FC = () => {
             helperText={formik.touched.name && formik.errors.name}
             margin="dense"
             fullWidth
+            disabled={isSubmitted}
           />
           <TextField
             id="lastName"
@@ -77,6 +86,7 @@ const RegistrationForm: React.FC = () => {
             helperText={formik.touched.lastName && formik.errors.lastName}
             margin="dense"
             fullWidth
+            disabled={isSubmitted}
           />
           <TextField
             id="age"
@@ -90,6 +100,7 @@ const RegistrationForm: React.FC = () => {
             helperText={formik.touched.age && formik.errors.age}
             margin="dense"
             fullWidth
+            disabled={isSubmitted}
           />
           <TextField
             id="email"
@@ -103,6 +114,7 @@ const RegistrationForm: React.FC = () => {
             helperText={formik.touched.email && formik.errors.email}
             margin="dense"
             fullWidth
+            disabled={isSubmitted}
           />
           <TextField
             id="password"
@@ -116,6 +128,7 @@ const RegistrationForm: React.FC = () => {
             helperText={formik.touched.password && formik.errors.password}
             margin="dense"
             fullWidth
+            disabled={isSubmitted}
           />
           <div className={containerStyles.submitButton}>
             <Button type='submit' variant='contained' className={containerStyles.submitButton}>
@@ -127,13 +140,23 @@ const RegistrationForm: React.FC = () => {
           </p>
         </form>
         <Snackbar
-          open={openToast}
-          autoHideDuration={6000}
-          onClose={handleCloseToast}
+          open={openErrorToast}
+          autoHideDuration={3000}
+          onClose={handleCloseErrorToast}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <Alert severity="error" onClose={handleCloseToast}>
+          <Alert severity="error" onClose={handleCloseErrorToast}>
             There is already a user created with that email.
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openSuccessToast}
+          autoHideDuration={5000}
+          onClose={handleCloseSuccessToast}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert severity='success' onClose={handleCloseSuccessToast}>
+            Successful registration!
           </Alert>
         </Snackbar>
       </div>
