@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { TextField, Button, Typography, Snackbar, Alert } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { MinimumUser, User } from '../model'
 import buttonStyles from '../../../components/button.module.scss'
 import containerStyles from '../../../components/container.module.scss'
+import { AppContext } from '../../../context/AppContext'
 
 const LoginScreen: React.FC = () => {
+  const { login, storedUsers } = useContext(AppContext);
   const [openToast, setOpenToast] = useState(false);
-
-  const navigate = useNavigate()
 
   const initialValues = new MinimumUser('', '')
 
@@ -21,11 +21,10 @@ const LoginScreen: React.FC = () => {
 
   const handleSubmit: FormikConfig<MinimumUser>['onSubmit'] = (values, { resetForm }) => {
 
-    const user: User = JSON.parse(localStorage.getItem('registeredUser') ?? '{}') as User;
-    if (values.email === user.email && values.password === user.password) {
-      localStorage.setItem('loggedUser', JSON.stringify(user))
+    const user: User | undefined = storedUsers.find(user => user.email === values.email && user.password === values.password)
+    if (user) {
+      login(user)
       resetForm()
-      navigate('/home')
     } else {
       setOpenToast(true)
     }

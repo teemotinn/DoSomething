@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import ActivityCard from './ActivityCard'
-import { ActivityContext } from '../../context/ActivityContext'
+import { AppContext } from '../../context/AppContext'
 import Header from '../../components/Header'
 import { Typography } from '@mui/material'
 import containerStyles from '../../components/container.module.scss'
 
 const ActivitiesList = () => {
-    const { activities, removeActivity } = useContext(ActivityContext);
+    const { activities, removeActivity } = useContext(AppContext);
 
     return (
         <div>

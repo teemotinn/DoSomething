@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
-import { TextField, Button, Typography } from '@mui/material'
+import { TextField, Button, Typography, Alert, Snackbar } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { User } from '../model';
 import containerStyles from '../../../components/container.module.scss'
 import buttonStyles from '../../../components/button.module.scss'
+import { AppContext } from '../../../context/AppContext'
 
 const RegistrationForm: React.FC = () => {
-
+  const { signUp, storedUsers } = useContext(AppContext);
   const navigate = useNavigate()
+  const [openToast, setOpenToast] = useState(false)
 
   const initialValues = new User('', '', '', '', '')
 
@@ -22,16 +24,26 @@ const RegistrationForm: React.FC = () => {
   })
 
   const handleSubmit: FormikConfig<User>['onSubmit'] = (values, { resetForm }) => {
-    localStorage.setItem('registeredUser', JSON.stringify(values))
-    resetForm()
-    navigate('/login')
+    const user: User | undefined = storedUsers.find(user => user.email === values.email)
+    if (user) {
+      setOpenToast(true)
+    }
+    else {
+      signUp(values)
+      resetForm()
+      navigate('/login')
+    }
+  }
+
+  const handleCloseToast = () => {
+    setOpenToast(false);
   }
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: handleSubmit
-  });
+  })
 
   return (
     <div className={containerStyles.internalContainer}>
@@ -105,6 +117,16 @@ const RegistrationForm: React.FC = () => {
           Do you have an account? <Link to="/login">Login</Link>
         </p>
       </form>
+      <Snackbar
+        open={openToast}
+        autoHideDuration={6000}
+        onClose={handleCloseToast}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="error" onClose={handleCloseToast}>
+          There is already a user created with that email.
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

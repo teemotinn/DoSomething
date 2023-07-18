@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import buttonStyles from '../../../components/button.module.scss'
 import containerStyles from '../../../components/container.scss'
 import { MinimumUser, User } from '../User/model'
+import { PATHS } from '../../navigation/Paths'
 
 const LoginScreen = () => {
   const [openToast, setOpenToast] = useState(false);
@@ -25,7 +26,7 @@ const LoginScreen = () => {
     if (values.email === user.email && values.password === user.password) {
       localStorage.setItem('loggedUser', JSON.stringify(user))
       resetForm()
-      navigate('/home')
+      navigate(PATHS.HOME)
     } else {
       setOpenToast(true)
     }

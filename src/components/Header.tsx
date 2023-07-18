@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Button, Drawer, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@mui/material';
 import { Menu as MenuIcon, Home as HomeIcon, List as ListIcon, Logout as LogoutIcon } from '@mui/icons-material';
 import containerStyle from '../components/container.module.scss'
-import { ActivityContext } from '../context/ActivityContext';
+import { AppContext } from '../context/AppContext';
+import { PATHS } from '../navigation/Paths';
 
 const Header: React.FC = () => {
-    const { cleanActivities } = useContext(ActivityContext);
+    const {logout, cleanActivities } = useContext(AppContext);
     const navigate = useNavigate();
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
-        localStorage.removeItem('loggedUser')
+        logout()
         cleanActivities()
-        navigate('/login')
     };
 
     const handleDrawerToggle = () => {
@@ -38,10 +38,10 @@ const Header: React.FC = () => {
                         DS!
                     </Typography>
                     <Hidden smDown>
-                        <Button color="inherit" onClick={() => handleMenuOptionClick('/home')}>
+                        <Button color="inherit" onClick={() => handleMenuOptionClick(PATHS.HOME)}>
                             Home
                         </Button>
-                        <Button color="inherit" onClick={() => handleMenuOptionClick('/activities-to-do')}>
+                        <Button color="inherit" onClick={() => handleMenuOptionClick(PATHS.ACTIVITIES_TO_DO)}>
                             To do
                         </Button>
                         <Button color="inherit" onClick={handleLogout}>
@@ -54,13 +54,13 @@ const Header: React.FC = () => {
             <Hidden smUp>
                 <Drawer anchor="left" open={isMenuOpen} onClose={handleDrawerToggle}>
                     <List>
-                        <ListItem onClick={() => handleMenuOptionClick('/home')}>
+                        <ListItem onClick={() => handleMenuOptionClick(PATHS.HOME)}>
                             <ListItemIcon>
                                 <HomeIcon />
                             </ListItemIcon>
                             <ListItemText primary="Home" />
                         </ListItem>
-                        <ListItem onClick={() => handleMenuOptionClick('/activities-to-do')}>
+                        <ListItem onClick={() => handleMenuOptionClick(PATHS.ACTIVITIES_TO_DO)}>
                             <ListItemIcon>
                                 <ListIcon />
                             </ListItemIcon>

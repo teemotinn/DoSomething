@@ -7,7 +7,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
-import './index.css'
+import './index.scss'
 
 let theme = createTheme({
   palette: {
