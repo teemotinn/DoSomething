@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
-import { TextField, Button, Typography, Alert, Snackbar } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { TextField, Button, Typography, Alert, Snackbar, Link } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { User } from '../structure/model';
 import containerStyles from '../../../common/components/container.module.scss'
 import { AppContext } from '../../../context/AppContext'
@@ -59,7 +59,7 @@ const RegistrationForm: React.FC = () => {
       <Header />
       <div className={containerStyles.internal}>
         <Typography variant="h4" gutterBottom>
-          Registration Form
+          Sign Up
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -136,7 +136,7 @@ const RegistrationForm: React.FC = () => {
             </Button>
           </div>
           <p>
-            Do you have an account? <Link to={PATHS.LOGIN}>Login</Link>
+            Do you have an account? <Link href={PATHS.LOGIN}>Login</Link>
           </p>
         </form>
         <Snackbar

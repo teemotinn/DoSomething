@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { FormikConfig, useFormik } from 'formik'
 import * as Yup from 'yup'
-import { TextField, Button, Typography, Snackbar, Alert } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { TextField, Button, Typography, Snackbar, Alert, Link } from '@mui/material'
 import { MinimumUser, User } from '../structure/model'
 import containerStyles from '../../../common/components/container.module.scss'
 import { AppContext } from '../../../context/AppContext'
@@ -81,9 +80,9 @@ const LoginScreen: React.FC = () => {
               Login
             </Button>
           </div>
-          <p>
-            Don't have an account? <Link to={PATHS.SIGN_UP}>Register</Link>
-          </p>
+          <Typography variant='body1'>
+            Don't have an account? <Link href={PATHS.SIGN_UP}>Register</Link>
+          </Typography>
         </form>
 
         <Snackbar

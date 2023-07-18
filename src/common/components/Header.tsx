@@ -51,7 +51,7 @@ const Header: React.FC = () => {
                                 Home
                             </Button>
                             <Button color="inherit" onClick={() => handleMenuOptionClick(PATHS.ACTIVITIES_TO_DO)}>
-                                To do
+                                Activities to do
                             </Button>
                             <Button color="inherit" onClick={handleLogout}>
                                 Logout
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
                                 <ListItemIcon>
                                     <ListIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="To do" />
+                                <ListItemText primary="Activities to do" />
                             </ListItem>
                             <ListItem onClick={handleLogout}>
                                 <ListItemIcon>

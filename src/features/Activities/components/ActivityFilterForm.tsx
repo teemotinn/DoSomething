@@ -57,10 +57,10 @@ const ActivityFilterForm: React.FC<FilterProps> = ({ onFilter }) => {
         error={formik.touched.participants && Boolean(formik.errors.participants)}
         helperText={formik.touched.participants && formik.errors.participants}
       />
-      <div className={containerStyles.marginLeftButton}>
+      <div className={containerStyles.marginLeft}>
         <Button type='reset'>Reset</Button>
       </div>
-      <div className={containerStyles.marginLeftButton}>
+      <div className={containerStyles.marginLeft}>
         <Button type="submit">Filter</Button>
       </div>
     </form>
