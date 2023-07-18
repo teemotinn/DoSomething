@@ -15,3 +15,6 @@ DS is an application built with React JS, whose purpose is to add random activit
 - MUI Material: https://mui.com/
 - Formik: https://formik.org/docs/overview
   
+The illustration used as an icon in browsers is thanks to: https://www.svgrepo.com/svg/421766/bulb-electric-energy
+
+Application developed by Timoteo Grosso and designed by the Midas Consultores SA team.
